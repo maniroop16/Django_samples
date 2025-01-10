@@ -17,10 +17,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from testingapp.views import test
-from sendemail.views import email_function
+from sendemail.views import *
+
 
 urlpatterns = [
     path('sampleapp/',test, name = "test"),
+
+    path('', register, name= 'register'),
+    path('register/', register, name= 'register'),
+    path('login/', login_page, name= 'login_page'),
 
     path('sendemail/', email_function, name = 'email_function'),
 

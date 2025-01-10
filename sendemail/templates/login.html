@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block start %}
+<form class="col-6 mx-auto card p-3 shadow-lg m-3" method="post">
+    {% csrf_token %}
+    <h3>Login to your Account</h3>
+
+    <div class="mb-3">
+        <label  class="form-label">Username</label>
+        <input type="text" class="form-control" id="username" name="username">
+    </div>
+    <div class="mb-3">
+        <label  class="form-label">password</label>
+        <input type="password" class="form-control" id="password" name="password">
+    </div>
+    <button type="submit" class="btn btn-primary">Login</button>
+    <p>Dont have an Account <a href="/register/">Register</a></p>
+  </form>
+
+{% endblock %}  
