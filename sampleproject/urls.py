@@ -26,6 +26,7 @@ urlpatterns = [
     path('', register, name= 'register'),
     path('register/', register, name= 'register'),
     path('login/', login_page, name= 'login_page'),
+    path('otp/',verify_otp, name = "verify_otp"),
 
     path('sendemail/', email_function, name = 'email_function'),
 
