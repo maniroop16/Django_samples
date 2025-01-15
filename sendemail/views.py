@@ -9,6 +9,7 @@ from testingapp.templates import *
 from .utils import send_otp
 from datetime import datetime
 import pyotp
+from ecommerce.urls import *
 # Create your views here.
 
 def register(request):
@@ -104,7 +105,7 @@ def verify_otp(request):
                     del request.session['otp_secret_key']
                     del request.session['otp_valid_date']
                     
-                    return redirect('/sampleapp/')
+                    return redirect('/website/')
                 else:
                     messages.warning(request, "Incorrect OTP")
             else:

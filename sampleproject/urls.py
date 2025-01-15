@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from testingapp.views import test
 from sendemail.views import *
 
@@ -29,6 +29,8 @@ urlpatterns = [
     path('otp/',verify_otp, name = "verify_otp"),
 
     path('sendemail/', email_function, name = 'email_function'),
+    
+    path("website/", include('ecommerce.urls')),
 
     path('admin/', admin.site.urls),
 ]
