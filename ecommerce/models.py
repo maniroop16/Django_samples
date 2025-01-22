@@ -8,7 +8,7 @@ class Customer(models.Model):
     customer_email = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.name
+        return self.customer_name
     
 class Product(models.Model):
     product_name = models.CharField(max_length=100)
@@ -37,11 +37,28 @@ class Order(models.Model):
     def __str__(self):
         return str(self.id)
     
+    @property
+    def get_cart_total(self):
+        orderitems = self.orderitem_set.all()
+        total = sum([item.individual_item_total for item in orderitems])
+        return total
+    
+    @property
+    def get_cart_items(self):
+        orderitems = self.orderitem_set.all()
+        total = sum([item.quantity for item in orderitems])
+        return total
+    
 class Orderitem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
     quantity = models.IntegerField(default=0, null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)    
+
+    @property
+    def individual_item_total(self):
+        total = self.product.price * self.quantity
+        return total
 
 
 class Shippingaddress(models.Model):
