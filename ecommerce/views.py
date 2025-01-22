@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from testingapp.templates import *
+from .models import *
 # Create your views here.
 
 def main(request):
@@ -7,7 +8,8 @@ def main(request):
     return render(request, 'base.html', context)
 
 def store(request):
-    context = {}
+    all_products = Product.objects.all()
+    context = {"products": all_products}
     return render(request, 'store.html', context)
 
 def cart(request):
