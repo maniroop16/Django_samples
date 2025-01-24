@@ -3,6 +3,7 @@ from testingapp.templates import *
 from .models import *
 from django.http import JsonResponse
 import json
+import datetime
 # Create your views here.
 
 def main(request):
@@ -30,9 +31,31 @@ def cart(request):
         items = order.orderitem_set.all()
         cartitems = order.get_cart_items
     else:
+        cart = json.loads(request.COOKIES['cart'])
+        print(cart)
         items = []
         order = {'get_cart_total':0, 'get_cart_items':0,'shipping':False}
         cartitems = order['get_cart_items']
+        for i in cart:
+            cartitems += cart[i]['quantity']
+            product = Product.objects.get(id=i)
+            total = (product.price * cart[i]['quantity'])
+
+            order['get_cart_total'] += total
+            order['get_cart_items'] += cart[i]['quantity']
+
+            item = {
+				'product':{
+                    'id':product.id,
+                    'product_name':product.product_name,
+                    'price':product.price, 
+				    'imageURL':product.imageURL
+                    },
+                'quantity':cart[i]['quantity'],
+				'digital':product.digital,
+                'individual_item_total':total,
+				}
+            items.append(item)
     context = {'items':items, 'order':order, 'cartitems':cartitems}
     return render(request, 'cart.html', context)
 
@@ -75,4 +98,32 @@ def updateitem(request):
         orderItem.delete()
 
     return JsonResponse("Item added", safe=False)
-    
+
+def processorder(request):
+    transaction_id = datetime.datetime.now().timestamp()
+    data = json.loads(request.body)
+
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        total = float(data['form']['total'])
+        order.transaction_id = transaction_id
+
+        if total == float(order.get_cart_total):
+            order.complete = True
+        order.save()
+
+        if order.shipping == True:
+            Shippingaddress.objects.create(
+                customer = customer,
+                order = order,
+                address = data['shippinginfo']['address'],
+                city = data['shippinginfo']['city'],
+                state = data['shippinginfo']['state'],
+                zipcode = data['shippinginfo']['zipcode']
+            )
+
+    else:
+        print('User not logged in!!')    
+
+    return JsonResponse('payment done!!', safe=False)
