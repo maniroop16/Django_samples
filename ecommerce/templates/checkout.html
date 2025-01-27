@@ -143,7 +143,10 @@
             .then((Response)=> Response.json())
             .then((data)=>{
                 console.log('data:',data)
-                alert('transction completed')
+                alert('transaction completed')
+                cart = {}
+				document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
+
                 window.location.href = "{% url 'store' %}"
             })
 	    }
