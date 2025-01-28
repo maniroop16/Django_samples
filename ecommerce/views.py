@@ -7,14 +7,16 @@ import datetime
 from .utils import cookieCart, cartData, guestOrder
 # Create your views here.
 
-def main(request):
+def base(request):
     context = {}
     return render(request, 'base.html', context)
 
 def store(request):
     all_products = Product.objects.all()
     data = cartData(request)
+    cartitems = 0
     cartitems= data['cartitems']
+    print("cartitems:", cartitems)
 
     context = {"products": all_products, 'cartitems':cartitems}
     return render(request, 'store.html', context)

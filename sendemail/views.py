@@ -12,6 +12,10 @@ import pyotp
 from ecommerce.urls import *
 # Create your views here.
 
+
+def welcome(request):
+    return render(request, 'welcome.html')
+
 def register(request):
     if request.method == 'POST':
         firstname = request.POST['firstname']

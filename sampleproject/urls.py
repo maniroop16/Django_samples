@@ -25,7 +25,7 @@ from django.conf import settings
 urlpatterns = [
     path('sampleapp/',test, name = "test"),
 
-    path('', register, name= 'register'),
+    path('', base, name= 'base'),
     path('register/', register, name= 'register'),
     path('login/', login_page, name= 'login_page'),
     path('otp/',verify_otp, name = "verify_otp"),
