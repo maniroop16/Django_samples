@@ -14,7 +14,8 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-CSRF_TRUSTED_ORIGINS= ["https://djangosamples-production.up.railway.app/"]
+#This is for accessing admin panal after deploying
+CSRF_TRUSTED_ORIGINS= ["https://djangosamples-production.up.railway.app/"] 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -25,8 +26,9 @@ SECRET_KEY = 'django-insecure-35!^$!hkthuymbvnjee8d9e6u4(qiyn7)s#-*j+^vzcv9f%f46
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["*"] # "*" is mentioned, because this should accept all hosts after deployment
 
+#Email functionality
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = '@gmail.com'
 EMAIL_HOST_PASSWORD = ''
@@ -50,7 +52,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # This is for deployment
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -136,7 +138,7 @@ MEDIA_URL = '/images/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
-STATICSTORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICSTORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' # This is for deployment
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
